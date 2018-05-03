@@ -4,6 +4,6 @@ void blackjack();
 void war();
 int main() {
 
-  printf("HELLO THIS PROJECT IS THE BOMB DOT COM PLEASE GIVE US AN A");
+  printf("HeLLO THIS PROJECT IS THE BOMB DOT COM PLEASE GIVE US AN A");
   return 0;
 }
