@@ -1,9 +1,10 @@
 #include <stdio.h>
+#include "curses.h"
 
 void blackjack();
 void war();
 int main() {
 
-  printf("HeLLO THIS PROJECT IS THE BOMB DOT COM PLEASE GIVE US AN A");
+  printf("Welcome to the program!");
   return 0;
 }
