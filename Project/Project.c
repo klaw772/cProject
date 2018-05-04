@@ -4,18 +4,12 @@
 #include "BLQ.h"
 
 
-char *suits_str[4] = {"Spades", "Hearts", "Diamonds", "Clubs"};
-char *faces_str[13] = {"2", "3", "4", "5", "6", "7", "8", "9",
-            "10", "Jack", "Queen", "King", "Ace"};
 
 
-enum suits { SPADES, HEARTS, DIAMONDS, CLUBS };
-enum faces { TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN,
-             JACK, QUEEN, KING, ACE };
-int suit;
-int face;
 
-int deck[52];
+
+
+
 
 
 /*
@@ -60,7 +54,7 @@ void printDeck(){
        int card = deck[i];
        int suit = card / 13;
        int face = card % 13;
-       printf("%s of %s\n", suits_str[face], faces_str[suit]);
+       printf("%s of %s\n", faces_str[face], suits_str[suit]);
      }
 
 
