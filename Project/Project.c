@@ -57,7 +57,7 @@ int main() {
 
 // A barebones function that sets global variable gameCheck to 1
 // and prints a successful game played message
-void blackjack(){}
+void blackjack(){
   gameCheck = 1;
   printf("Believe it or not, you just played Blackjack!\n");
 }
