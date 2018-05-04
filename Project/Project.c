@@ -1,10 +1,50 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "BLQ.h"
+
+
+char *suits_str[4] = {"Spades", "Hearts", "Diamonds", "Clubs"};
+char *faces_str[13] = {"2", "3", "4", "5", "6", "7", "8", "9",
+            "10", "Jack", "Queen", "King", "Ace"};
+
+
+enum suits { SPADES, HEARTS, DIAMONDS, CLUBS };
+enum faces { TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN,
+             JACK, QUEEN, KING, ACE };
+int suit;
+int face;
+
+int deck[52];
+
+
+/*
+** QUEUE IMPLEMENTATION
+*/
+
+
+
+
+
+
+
+
+
+
+/*
+** QUEUE IMPLEMENTATION ENDS
+*/
+
+
+
+/*
+** GAME IMPLEMENTATION
+*/
 
 
 // main method
 int main() {
+  srand(time(NULL));
   system("@cls||clear");
   printf("Welcome to our program!\n\n");
   printf("");
@@ -12,11 +52,36 @@ int main() {
   return 0;
 }
 
+void printDeck(){
 
-void drawCard(){
 
-  int card = 1 + (rand()% 3);
+  printf("Here is a shuffled deck:\n");
+  for (int i = 0; i < 52; i++) {
+       int card = deck[i];
+       int suit = card / 13;
+       int face = card % 13;
+       printf("%s of %s\n", suits_str[suit], faces_str[face]);
+     }
 
+
+}
+
+// creates and shuffles the deck
+void shuffleDeck(){
+
+for (int i = 0; i < 52; i++) {
+     /* start with a sorted deck */
+     deck[i] = i;
+}
+
+for (int i = 0; i < 1000; i++) {
+    /* shuffle by swapping cards pseudo-randomly a 1000 times */
+    int from = rand() % 52;
+    int to = rand() % 52;
+    int card = deck[from];
+    deck[from] = deck[to];
+    deck[to] = card;
+}
 
 }
 
@@ -40,7 +105,8 @@ void blackjack(){
 void war(){
   gameCheck = 2;
 
-
+  shuffleDeck();
+  printDeck();
   printf("Believe it or not, you just played War!\n");
 
 
@@ -107,4 +173,8 @@ void quit(){
   }
 
 
+
+/*
+** GAME IMPLEMENTATION ENDS
+*/
 }

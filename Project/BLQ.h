@@ -7,7 +7,8 @@ void blackjack();
 void war();
 void quit();
 void gameOn();
-void drawCard();
+void shuffleDeck();
+void printDeck();
 
 /*
 struct card{};
