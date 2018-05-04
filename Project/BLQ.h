@@ -12,6 +12,7 @@ void drawCard();
 struct card{};
 struct queue{
   int front, rear, size;
+
 };
 
 
