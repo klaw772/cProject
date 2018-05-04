@@ -60,7 +60,7 @@ void printDeck(){
        int card = deck[i];
        int suit = card / 13;
        int face = card % 13;
-       printf("%s of %s\n", suits_str[suit], faces_str[face]);
+       printf("%s of %s\n", suits_str[face], faces_str[suit]);
      }
 
 
