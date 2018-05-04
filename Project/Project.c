@@ -3,6 +3,7 @@
 
 void blackjack();
 void war();
+
 int main() {
   system("@cls||clear");
   printf("Welcome to our program!\n\n");
@@ -25,7 +26,7 @@ int main() {
   }
   while (game != 1 && game != 2)
   {
-     printf("Sorry, ");
+     printf("Sorry, "); // LOL THIS JUST KEEPS PRINTING SORRY, I LOVE IT
   }
   printf("\nWould you like to quit? Press y if you want to quit, or n if you want to stay in the program: ");
   char space;
