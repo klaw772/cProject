@@ -9,11 +9,13 @@ void quit();
 void gameOn();
 void drawCard();
 
+/*
 struct card{};
 struct queue{
   int front, rear, size;
-
+  unsigned capacity;
+  int* array;
 };
-
+*/
 
 #endif
