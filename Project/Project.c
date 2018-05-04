@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//James: yeah, you right
-//Kat: okay. I think for option 3 it's the same as 2 but reversed
+//James: i'mma repush
+//Kat: YEET
 
 
 void blackjack();
@@ -61,24 +61,29 @@ void gameOn(){
 }
 
 void quit(){
-  printf("\nWould you like to quit? Press 1 if you want to quit, 2 if you want to play the same game, or 3 if you would like to play the other game: ");
+  printf("\nWould you like to quit? Press 3 if you want to quit, 4 if you want to play the same game, or 5 if you would like to play the other game: ");
   char space;
   char decide;
   scanf("%c", &space);
   scanf("%c", &decide);
+  while (decide != 3 && decide != 4 && decide != 5)
+  {
+    printf("Not a valid option. Press 3 if you want to quit, 4 if you want to play the same game, or 5 if you would like to play the other game: ");
+    scanf("%c", &decide);
+  }
   switch (decide)
   {
-    case '1':
+    case '3':
       printf("Thanks for playing!\n\n\n\n\n");
       break;
-    case '2':
+    case '4':
       printf("Let's keep going with this game!\n");
       if (gameCheck == 1) //if they already called the blackjack function, then gameCheck = 1
         blackjack(); // since gameCheck = 1, it re-calls the blackjack function
       else if (gameCheck == 2) //if they had called the war function though, gameCheck = 2
         war(); // since gameCheck != 1, it re-calls the war function
-    case '3': 
-      printf("Let's play another game!");
+    case '5':
+      printf("Let's play another game!\n");
       if (gameCheck == 1) //if they already called the blackjack function, then gameCheck = 1
         war(); // since gameCheck = 1, it re-calls the blackjack function
       else if (gameCheck == 2) //if they had called the war function though, gameCheck = 2
