@@ -3,19 +3,48 @@
 #include <time.h>
 #include "BLQ.h"
 
+// I DON'T KNOW IF WE EVEN NEED QUEUES. We can easily just iterate through an array
+// to find values that aren't == to 0. Both players have an array of 52 cards,
+// and when they're playing a card, for example, it searches through the front (or back)
+// of the array and prints the first value that isn't 0. Then, when a player wins a batlle,
+// the values of the cards they won can be added to the first indecies of the ray that
+// == 0. This is still possible with queues, and may be more time efficient, but there is
+// the option there. Okay, end rant.
 
 /*
 ** QUEUE IMPLEMENTATION
 */
 
+struct Queue {
+  int front, rear, size;
+  unsigned capacity;
+  int* array;
+};
 
+//checks to see if the queue is full
+void isFull(struct Queue* queue){
 
+}
+//checks to see if the queue is empty
+void isEmpty(struct Queue* queue){
 
+}
+//adds an element to the back of the queue
+void add(struct Queue* queue, int data){
 
+}
+//removes an element from the front of the queue
+void remove(struct Queue* queue, int data){
 
+}
+//prints the element at the front of the queue
+void front(struct Queue* queue){
 
+}
+//prints the element at the back of the queue
+void back(struct Queue* queue){
 
-
+}
 
 /*
 ** QUEUE IMPLEMENTATION ENDS

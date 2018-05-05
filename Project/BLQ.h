@@ -13,7 +13,15 @@ char *suits_str[4] = {"Spades", "Hearts", "Diamonds", "Clubs"};
 char *faces_str[13] = {"2", "3", "4", "5", "6", "7", "8", "9",
             "10", "Jack", "Queen", "King", "Ace"};
 
-//some function prototypes
+//queue function prototypes
+void isFull(struct Queue* queue);
+void isEmpty(struct Queue* queue);
+void add(struct Queue* queue, int data);
+void remove(struct Queue* queue, int data);
+void top(struct Queue* queue);
+void bottom(struct Queue* queue);
+
+//game function prototypes
 void blackjack();
 void war();
 void quit();
@@ -23,11 +31,6 @@ void printDeck();
 
 /*
 struct card{};
-struct queue{
-  int front, rear, size;
-  unsigned capacity;
-  int* array;
-};
 */
 
 #endif
