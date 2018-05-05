@@ -21,13 +21,26 @@ struct Queue {
   int* array;
 };
 
+//creates a queue
+void createQ(unsigned capacity){
+  struct Queue* queue = (struct Queue*) malloc(sizeof(struct Queue));
+  queue->capacity = capacity;
+  queue->front = queue->size = 0;
+  queue->rear = queue->size = capacity-1;
+}
 //checks to see if the queue is full
 void isFull(struct Queue* queue){
-
+  if (queue->size == queue->capacity){
+    printf("Queue is full!\n");
+    return;
+  }
 }
 //checks to see if the queue is empty
 void isEmpty(struct Queue* queue){
-
+  if (queue->size == 0){
+    printf("Queue is empty!\n");
+    return;
+  }
 }
 //adds an element to the back of the queue
 void addQ(struct Queue* queue, int data){
