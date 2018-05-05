@@ -4,14 +4,6 @@
 #include "BLQ.h"
 
 
-
-
-
-
-
-
-
-
 /*
 ** QUEUE IMPLEMENTATION
 */
@@ -46,6 +38,7 @@ int main() {
   return 0;
 }
 
+// prints the face and suit of each card in the deck
 void printDeck(){
 
 
