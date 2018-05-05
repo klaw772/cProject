@@ -30,19 +30,19 @@ void isEmpty(struct Queue* queue){
 
 }
 //adds an element to the back of the queue
-void add(struct Queue* queue, int data){
+void addQ(struct Queue* queue, int data){
 
 }
 //removes an element from the front of the queue
-void remove(struct Queue* queue, int data){
+void removeQ(struct Queue* queue, int data){
 
 }
 //prints the element at the front of the queue
-void front(struct Queue* queue){
+void frontQ(struct Queue* queue){
 
 }
 //prints the element at the back of the queue
-void back(struct Queue* queue){
+void backQ(struct Queue* queue){
 
 }
 
