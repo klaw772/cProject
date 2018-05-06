@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <limits.h>
+#include <unistd.h>
+
 #include "BLQ.h"
 
 // I DON'T KNOW IF WE EVEN NEED QUEUES. We can easily just iterate through an array
@@ -29,14 +30,14 @@ int main() {
   srand(time(NULL));
   system("@cls||clear");
   printf("Welcome to our program!\n\n");
-  printf("");
+  sleep(3);
   gameOn();
   return 0;
 }
 
-// prints the face and suit of each card in the deck
+ //prints the face and suit of each card in the deck
 void printDeck(struct Queue* deck){
-  printf("Here is a shuffled deck:\n");
+  printf("Printing the specified deck:\n");
   for (int i = 0; i < deck->capacity; i++) {
        int card = deck->array[i];
        int suit = card / 13;
@@ -50,25 +51,32 @@ void shuffleDeck(struct Queue* deck){
   for (int i = 0; i < deck -> capacity; i++) {
        /* start with a sorted deck */
      addQ(deck, i);
-}
+   }
 
-for (int i = 0; i < 1000; i++) {
+  for (int i = 0; i < 1000; i++) {
     /* shuffle by swapping cards pseudo-randomly a 1000 times */
     int from = rand() % deck->capacity;
     int to = rand() % deck->capacity;
     int card = deck->array[from];
     deck->array[from] = deck->array[to];
     deck->array[to] = card;
-}
+  }
 
 }
 
+/**void divideCards (struct Queue* humanPile, struct Queue* computerPile, struct Queue* deck){
+  for (int i = 0; i < deck -> capacity; i++){
+
+  }
+
+}
+**/
 
 // A barebones function that sets global variable gameCheck to 1
 // and prints a successful game played message
 void blackjack(){
   gameCheck = 1;
-
+  system("@cls||clear");
   struct Queue* queue = createQ(1000);
 
       addQ(queue, 10);
@@ -89,21 +97,64 @@ void blackjack(){
 
 
 
-// A barebones function that sets global variable gameCheck to 2
-// and prints a successful game played message
+// War game function
 void war(){
   gameCheck = 2;
-
+  system("@cls||clear");
+  char placeholder; //clears input buffer
+  scanf("%c", &placeholder);
+  char enter;
+  printf("Welcome to the game of War! Here are the rules. Press enter after you read each step to move on to the next step.\n\n");
+  printf("Step 1: We will be using a standard deck of 52 cards. After shuffling, the deck is divided into two piles: one for you and one for the computer.\n\n"); //starting the rules
+  scanf("%c", &enter);
+  while (enter != '\n')
+  {
+    printf("Press enter to continue!");
+  }
+  printf("Step 2: You will draw the topmost card from your pile and show it. The computer will do the same.\n\n");
+  scanf("%c", &enter);
+  while (enter != '\n')
+  {
+    printf("Press enter to continue!");
+  }
+  printf("Step 3: These cards' values will be compared, and whoever has the higher value will take both cards and put them at the bottom of their pile of cards.\n\n");
+  scanf("%c", &enter);
+  while (enter != '\n')
+  {
+    printf("Press enter to continue!");
+  }
+  printf("Step 4: If the cards are of the same rank, then it is War!! Draw 3 cards face-down, then draw the fourth card face-up. These cards' values will be compared, and whoever has the higher value will take all the cards! These will all be put at the bottom of their pile of cards.\n\n");
+  scanf("%c", &enter);
+  while (enter != '\n')
+  {
+    printf("Press enter to continue!");
+  }
+  printf("Step 5: Whoever ends up with all of the cards at the end of the game wins!\n\n");
+  printf("When you are ready to play, press enter to start!");
+  scanf("%c", &enter);
+  while (enter != '\n')
+  {
+    printf("Press enter to start playing!");
+  }
   struct Queue* deck = createQ(52);
+  printf("Shuffling the deck!\n\n");
+  sleep(3); //delays for aesthetic effect
   shuffleDeck(deck);
-  printDeck(deck);
+  printf("Dealing the cards to each player!\n\n");
+  struct Queue* humanPile = createQ(52); //queues with max capacities of 52
+  struct Queue* computerPile = createQ(52);
+  //divideCards(humanPile, computerPile, deck);
+  printf("Your pile\n"); //these are here mostly to check that divide cards method works
+  //printDeck(humanPile);
+  printf("Computer pile\n");
+  //printDeck(computerPile);
   printf("Believe it or not, you just played War!\n");
 
   quit();
 }
 
 
-// primary game function
+// initial game set-up function at start of program
 void gameOn(){
   printf("Please select your choice of game by pressing 1 for Blackjack or 2 for War: ");
   int game;
@@ -116,21 +167,22 @@ void gameOn(){
   switch(game)
   {
     case 1:
-      system("@cls||clear");
-      printf("\n\n\n\n");
-      printf("Let's play Blackjack!\n");
+      printf("Let's play Blackjack!\n\n\n\n");
+      printf("Loading....\n");
+      sleep(5);
       blackjack(); //calls the blackjack function
       break;
     case 2:
-      system("@cls||clear");
       printf("\n\n\n\n");
-      printf("Let's play War!\n");
+      printf("Let's play War!\n\n\n\n");
+      printf("Loading....\n");
+      sleep(5);
       war(); //calls the war function
       break;
   }
 }
 
-// method for quitting the game at various stages
+// method for quitting the game after various rounds
 void quit(){
   printf("\nWould you like to quit? Press 3 if you want to quit, 4 if you want to play the same game, or 5 if you would like to play the other game: ");
   int decide;
@@ -143,21 +195,29 @@ void quit(){
   switch (decide)
   {
     case 3:
-      printf("Thanks for playing!\n\n\n\n\n");
+      printf("Thanks for playing!\n");
       break;
     case 4:
-      printf("Let's keep going with this game!\n");
-      if (gameCheck == 1) //if they already called the blackjack function, then gameCheck = 1
-        blackjack(); // since gameCheck = 1, it re-calls the blackjack function
-      else if (gameCheck == 2) //if they had called the war function though, gameCheck = 2
-        war(); // since gameCheck != 1, it re-calls the war function
+      printf("Let's keep going with this game!\n\n");
+      printf("Loading....\n");
+      sleep(5);
+      if (gameCheck == 1){ //if they already called the blackjack function, then gameCheck = 1
+        blackjack();
+      } // since gameCheck = 1, it re-calls the blackjack function
+      else if (gameCheck == 2){ //if they had called the war function though, gameCheck = 2
+        war();
+      } // since gameCheck != 1, it re-calls the war function
       break;
     case 5:
-      printf("Let's play another game!\n");
-      if (gameCheck == 1) //if they already called the blackjack function, then gameCheck = 1
-        war(); // since gameCheck = 1, it re-calls the blackjack function
-      else if (gameCheck == 2) //if they had called the war function though, gameCheck = 2
-        blackjack(); // since gameCheck != 1, it re-calls the war function
+      printf("Let's play a different game!\n\n");
+      printf("Loading....\n");
+      sleep(5);
+      if (gameCheck == 1){ //if they already called the blackjack function, then gameCheck = 1
+        war();
+      } // since gameCheck = 1, it re-calls the blackjack function
+      else if (gameCheck == 2){ //if they had called the war function though, gameCheck = 2
+        blackjack();
+      }// since gameCheck != 1, it re-calls the war function
       break;
   }
 

@@ -18,6 +18,7 @@ void quit();
 void gameOn();
 void shuffleDeck();
 void printDeck();
+void divideCards();
 
 /*
 ** QUEUE IMPLEMENTATION
