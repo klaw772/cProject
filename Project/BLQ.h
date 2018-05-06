@@ -14,13 +14,13 @@ char *faces_str[13] = {"2", "3", "4", "5", "6", "7", "8", "9",
             "10", "Jack", "Queen", "King", "Ace"};
 
 //queue function prototypes
-void createQ();
-void isFull();
-void isEmpty();
+struct Queue* createQ();
+int isFull();
+int isEmpty();
 void addQ();
-void removeQ();
-void topQ();
-void bottomQ();
+int removeQ();
+int topQ();
+int bottomQ();
 
 //game function prototypes
 void blackjack();

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <limits.h>
 #include "BLQ.h"
 
 // I DON'T KNOW IF WE EVEN NEED QUEUES. We can easily just iterate through an array
@@ -31,35 +32,27 @@ struct Queue* createQ(unsigned capacity){
   return queue;
 }
 //checks to see if the queue is full
-void isFull(struct Queue* queue){
-  if (queue->size == queue->capacity){
-    printf("Queue is full!\n");
-    return;
-  }
+int isFull(struct Queue* queue){
+  printf("Queue is full!\n");
+  return (queue->size == queue->capacity);
 }
 //checks to see if the queue is empty
-void isEmpty(struct Queue* queue){
-  if (queue->size == 0){
-    printf("Queue is empty!\n");
-    return;
-  }
+int isEmpty(struct Queue* queue){
+  printf("Queue is empty!\n");
+  return (queue->size == 0);
 }
 //adds an element to the back of the queue
 void addQ(struct Queue* queue, int data){
-  if (isFull(queue)){
-    printf("Queue is full!\n");
+  if (isFull(queue))
     return;
-  }
   queue->back = (queue->back + 1)%queue->capacity;
-  queue->array[queue->rear] = item;
+  queue->array[queue->back] = data;
   queue->size = queue->size + 1;
 }
 //removes an element from the front of the queue
-int removeQ(struct Queue* queue, int data){
-  if (isEmpty(queue)){
-    printf("Queue is empty!\n");
-    return;
-  }
+int removeQ(struct Queue* queue){
+  if (isEmpty(queue))
+    return INT_MIN;
   int data = queue->array[queue->front];
   queue->front = (queue->front + 1)%queue->capacity;
   queue->size = queue->size - 1;
@@ -69,7 +62,7 @@ int removeQ(struct Queue* queue, int data){
 int frontQ(struct Queue* queue){
   if (isEmpty){
     printf("There are no elements in the queue!\n");
-    return;
+    return INT_MIN;
   }
   return queue->array[queue->front];
 }
@@ -77,7 +70,7 @@ int frontQ(struct Queue* queue){
 int backQ(struct Queue* queue){
   if (isEmpty){
     printf("There are no elements in the queue!\n");
-    return;
+    return INT_MIN;
   }
   return queue->array[queue->back];
 }
