@@ -15,73 +15,9 @@
 //This is a great rant.
 //ty ty
 
-/*
-** QUEUE IMPLEMENTATION
-*/
-
-struct Queue {
-  int front, back, size;
-  unsigned capacity;
-  int* array;
-};
-
-//creates a queue
-struct Queue* createQ(unsigned capacity){
-  struct Queue* queue = (struct Queue*) malloc(sizeof(struct Queue));
-  queue->capacity = capacity;
-  queue->front = queue->size = 0;
-  queue->back = capacity-1;
-  queue->array = (int*) malloc(queue->capacity * sizeof(int));
-  return queue;
-}
-//checks to see if the queue is full
-int isFull(struct Queue* queue){
-  printf("Queue is full!\n");
-  return (queue->size == queue->capacity);
-}
-//checks to see if the queue is empty
-int isEmpty(struct Queue* queue){
-  printf("Queue is empty!\n");
-  return (queue->size == 0);
-}
-//adds an element to the back of the queue
-void addQ(struct Queue* queue, int data){
-  if (isFull(queue))
-    return;
-  queue->back = (queue->back + 1)%queue->capacity;
-  queue->array[queue->back] = data;
-  queue->size = queue->size + 1;
-}
-//removes an element from the front of the queue
-int removeQ(struct Queue* queue){
-  if (isEmpty(queue))
-    return INT_MIN;
-  int data = queue->array[queue->front];
-  queue->front = (queue->front + 1)%queue->capacity;
-  queue->size = queue->size - 1;
-  return data;
-}
-//prints the element at the front of the queue
-int frontQ(struct Queue* queue){
-  if (isEmpty){
-    printf("There are no elements in the queue!\n");
-    return INT_MIN;
-  }
-  return queue->array[queue->front];
-}
-//prints the element at the back of the queue
-int backQ(struct Queue* queue){
-  if (isEmpty){
-    printf("There are no elements in the queue!\n");
-    return INT_MIN;
-  }
-  return queue->array[queue->back];
-}
 
 
-/*
-** QUEUE IMPLEMENTATION ENDS
-*/
+
 
 /*
 ** GAME IMPLEMENTATION
@@ -99,10 +35,10 @@ int main() {
 }
 
 // prints the face and suit of each card in the deck
-void printDeck(){
+void printDeck(struct Queue* deck){
   printf("Here is a shuffled deck:\n");
-  for (int i = 0; i < 52; i++) {
-       int card = deck[i];
+  for (int i = 0; i < deck->capacity; i++) {
+       int card = deck->array[i];
        int suit = card / 13;
        int face = card % 13;
        printf("%s of %s\n", faces_str[face], suits_str[suit]);
@@ -110,19 +46,19 @@ void printDeck(){
 }
 
 // creates and shuffles the deck
-void shuffleDeck(){
-  for (int i = 0; i < 52; i++) {
+void shuffleDeck(struct Queue* deck){
+  for (int i = 0; i < deck -> capacity; i++) {
        /* start with a sorted deck */
-     deck[i] = i;
+     addQ(deck, i);
 }
 
 for (int i = 0; i < 1000; i++) {
     /* shuffle by swapping cards pseudo-randomly a 1000 times */
-    int from = rand() % 52;
-    int to = rand() % 52;
-    int card = deck[from];
-    deck[from] = deck[to];
-    deck[to] = card;
+    int from = rand() % deck->capacity;
+    int to = rand() % deck->capacity;
+    int card = deck->array[from];
+    deck->array[from] = deck->array[to];
+    deck->array[to] = card;
 }
 
 }
@@ -158,8 +94,9 @@ void blackjack(){
 void war(){
   gameCheck = 2;
 
-  shuffleDeck();
-  printDeck();
+  struct Queue* deck = createQ(52);
+  shuffleDeck(deck);
+  printDeck(deck);
   printf("Believe it or not, you just played War!\n");
 
   quit();
