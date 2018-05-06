@@ -16,17 +16,19 @@
 */
 
 struct Queue {
-  int front, rear, size;
+  int front, back, size;
   unsigned capacity;
   int* array;
 };
 
 //creates a queue
-void createQ(unsigned capacity){
+struct Queue* createQ(unsigned capacity){
   struct Queue* queue = (struct Queue*) malloc(sizeof(struct Queue));
   queue->capacity = capacity;
   queue->front = queue->size = 0;
-  queue->rear = queue->size = capacity-1;
+  queue->back = queue->size = capacity-1;
+  queue->array = (int*) malloc(queue->capacity * sizeof(int));
+  return queue;
 }
 //checks to see if the queue is full
 void isFull(struct Queue* queue){
@@ -44,19 +46,40 @@ void isEmpty(struct Queue* queue){
 }
 //adds an element to the back of the queue
 void addQ(struct Queue* queue, int data){
-
+  if (isFull(queue)){
+    printf("Queue is full!\n");
+    return;
+  }
+  queue->back = (queue->back + 1)%queue->capacity;
+  queue->array[queue->rear] = item;
+  queue->size = queue->size + 1;
 }
 //removes an element from the front of the queue
-void removeQ(struct Queue* queue, int data){
-
+int removeQ(struct Queue* queue, int data){
+  if (isEmpty(queue)){
+    printf("Queue is empty!\n");
+    return;
+  }
+  int data = queue->array[queue->front];
+  queue->front = (queue->front + 1)%queue->capacity;
+  queue->size = queue->size - 1;
+  return data;
 }
 //prints the element at the front of the queue
-void frontQ(struct Queue* queue){
-
+int frontQ(struct Queue* queue){
+  if (isEmpty){
+    printf("There are no elements in the queue!\n");
+    return;
+  }
+  return queue->array[queue->front];
 }
 //prints the element at the back of the queue
-void backQ(struct Queue* queue){
-
+int backQ(struct Queue* queue){
+  if (isEmpty){
+    printf("There are no elements in the queue!\n");
+    return;
+  }
+  return queue->array[queue->back];
 }
 
 /*
