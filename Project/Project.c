@@ -7,10 +7,13 @@
 // I DON'T KNOW IF WE EVEN NEED QUEUES. We can easily just iterate through an array
 // to find values that aren't == to 0. Both players have an array of 52 cards,
 // and when they're playing a card, for example, it searches through the front (or back)
-// of the array and prints the first value that isn't 0. Then, when a player wins a batlle,
+// of the array and prints the first value that isn't 0. Then, when a player wins a battle,
 // the values of the cards they won can be added to the first indecies of the ray that
 // == 0. This is still possible with queues, and may be more time efficient, but there is
 // the option there. Okay, end rant.
+
+//This is a great rant.
+//ty ty
 
 /*
 ** QUEUE IMPLEMENTATION
@@ -27,7 +30,7 @@ struct Queue* createQ(unsigned capacity){
   struct Queue* queue = (struct Queue*) malloc(sizeof(struct Queue));
   queue->capacity = capacity;
   queue->front = queue->size = 0;
-  queue->back = queue->size = capacity-1;
+  queue->back = capacity-1;
   queue->array = (int*) malloc(queue->capacity * sizeof(int));
   return queue;
 }
@@ -75,11 +78,10 @@ int backQ(struct Queue* queue){
   return queue->array[queue->back];
 }
 
+
 /*
 ** QUEUE IMPLEMENTATION ENDS
 */
-
-
 
 /*
 ** GAME IMPLEMENTATION
@@ -98,8 +100,6 @@ int main() {
 
 // prints the face and suit of each card in the deck
 void printDeck(){
-
-
   printf("Here is a shuffled deck:\n");
   for (int i = 0; i < 52; i++) {
        int card = deck[i];
@@ -107,15 +107,12 @@ void printDeck(){
        int face = card % 13;
        printf("%s of %s\n", faces_str[face], suits_str[suit]);
      }
-
-
 }
 
 // creates and shuffles the deck
 void shuffleDeck(){
-
-for (int i = 0; i < 52; i++) {
-     /* start with a sorted deck */
+  for (int i = 0; i < 52; i++) {
+       /* start with a sorted deck */
      deck[i] = i;
 }
 
@@ -136,9 +133,20 @@ for (int i = 0; i < 1000; i++) {
 void blackjack(){
   gameCheck = 1;
 
+  struct Queue* queue = createQ(1000);
+
+      addQ(queue, 10);
+      addQ(queue, 20);
+      addQ(queue, 30);
+      addQ(queue, 40);
+
+      printf("%d removed from queue\n", removeQ(queue));
+
+      printf("Front item is %d\n", frontQ(queue));
+      printf("Back item is %d\n", backQ(queue));
+
 
   printf("Believe it or not, you just played Blackjack!\n");
-
 
   quit();
 }
@@ -153,7 +161,6 @@ void war(){
   shuffleDeck();
   printDeck();
   printf("Believe it or not, you just played War!\n");
-
 
   quit();
 }
