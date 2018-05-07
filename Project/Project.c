@@ -5,16 +5,6 @@
 
 #include "BLQ.h"
 
-// I DON'T KNOW IF WE EVEN NEED QUEUES. We can easily just iterate through an array
-// to find values that aren't == to 0. Both players have an array of 52 cards,
-// and when they're playing a card, for example, it searches through the front (or back)
-// of the array and prints the first value that isn't 0. Then, when a player wins a battle,
-// the values of the cards they won can be added to the first indecies of the ray that
-// == 0. This is still possible with queues, and may be more time efficient, but there is
-// the option there. Okay, end rant.
-
-//This is a great rant.
-//ty ty
 
 /*
 ** GAME IMPLEMENTATION
@@ -33,7 +23,6 @@ int main() {
 
  //prints the face and suit of each card in the deck
 void printDeck(struct Queue* deck){
-  printf("Printing the specified deck:\n");
   for (int i = 0; i < deck->size; i++) {
        int card = deck->array[i];
        int suit = card / 13;
@@ -233,7 +222,7 @@ void warRules(){
     scanf("%c", &enter);
     scanf("%c", &enter);
   }
-  printf("Step 4: If the cards are of the same rank, then it is War!! Draw 3 cards face-down, then draw the fourth card face-up. These cards' values will be compared, and whoever has the higher value will take all the cards! These will all be put at the bottom of their pile of cards.\n\n");
+  printf("Step 4: If the cards are of the same rank, then it is War!! Draw 1 card face-down, then draw the second card face-up. These cards' values will be compared, and whoever has the higher value will take all the cards! These will all be put at the bottom of their pile of cards.\n\n");
   scanf("%c", &enter);
   while (enter != '\n')
   {
@@ -252,7 +241,7 @@ void warRules(){
   }
 }
 
-void draw(struct Queue* humanPile, struct Queue* computerPile, int cardsAtStake[])
+void draw(struct Queue* humanPile, struct Queue* computerPile, struct Queue* cardsAtStake)
 {
   char enter;
   printf("Press enter to draw your top card.");
@@ -265,56 +254,68 @@ void draw(struct Queue* humanPile, struct Queue* computerPile, int cardsAtStake[
   }
   printf("Your card is: %s of %s\n", warface[humanPile -> array[humanPile -> front] % 13], warsuit[humanPile -> array [humanPile ->front] / 13]);
   printf("The computer's card is: %s of %s\n", warface[computerPile -> array[computerPile -> front] % 13], warsuit[computerPile -> array[computerPile -> front] / 13]);
-  int hcompare = humanPile -> array[humanPile -> front]; //preserves data from the front of the human pile
-  int ccompare = computerPile -> array[computerPile -> front]; //preserves data from the front of the computer pile
+  int htemp = humanPile -> array[humanPile -> front]; //preserves data from the front of the human pile
+  int ctemp = computerPile -> array[computerPile -> front]; //preserves data from the front of the computer pile
   removeQ(humanPile);
   removeQ(computerPile);
-  cardsAtStake[0] = hcompare;
-  cardsAtStake[1] = ccompare;
+  addQ(cardsAtStake, htemp);
+  addQ(cardsAtStake, ctemp);
 }
 
-void drawWar(struct Queue* humanPile, struct Queue* computerPile, int cardsAtStake[])
+void drawWar(struct Queue* humanPile, struct Queue* computerPile, struct Queue* cardsAtStake)
 {
+  char enter;
   printf("WAR!!!\n");
-  printf("Draw your next top 3 cards face down, and then drop the fourth card face up.\n");
-  for (int i = 0; i < 2; i++)
+  printf("Pres enter to draw your next card face down, and then drop the second card face up.\n");
+  scanf("%c", &enter);
+  while (enter != '\n')
   {
-    for (int j = 0; j < 2; j++)
-    {
-      removeQ(humanPile);
-      removeQ(computerPile);
-    }
+    printf("Press enter to draw your cards!\n");
+    scanf("%c", &enter);
+    scanf("%c", &enter);
   }
-  printf("Your fourth card is: %s of %s\n", warface[humanPile -> array[humanPile -> front] % 13], warsuit[humanPile -> array [humanPile -> front] / 13]);
-  printf("The computer's fourth card is: %s of %s\n", warface[computerPile -> array[computerPile -> front] % 13], warsuit[computerPile -> array[computerPile -> front] / 13]);
+  int htemp1, htemp2, ctemp1, ctemp2;
+  htemp1 = humanPile -> array [humanPile -> front];
+  ctemp1 = computerPile -> array [computerPile -> front];
+  removeQ(humanPile);
+  removeQ(computerPile);
+  addQ(cardsAtStake, htemp1);
+  addQ(cardsAtStake, ctemp1);
+  printf("Your second card is: %s of %s\n", warface[humanPile -> array[humanPile -> front] % 13], warsuit[humanPile -> array [humanPile -> front] / 13]);
+  printf("The computer's second card is: %s of %s\n", warface[computerPile -> array[computerPile -> front] % 13], warsuit[computerPile -> array[computerPile -> front] / 13]);
+  htemp2 = humanPile -> array [humanPile -> front];
+  ctemp2 = computerPile -> array [computerPile -> front];
+  removeQ(humanPile);
+  removeQ(computerPile);
+  addQ(cardsAtStake, htemp2);
+  addQ(cardsAtStake, ctemp2);
+
 }
 
-int compare(int cardsAtStake[])
+int compare(struct Queue* cardsAtStake)
 {
-  int index;
-  for (int i = 0; i < sizeof(cardsAtStake); i++) //finding first empty index
+  int humanCompare = cardsAtStake -> array [cardsAtStake -> size - 1];
+  int computerCompare = cardsAtStake -> array [cardsAtStake -> size];
+  if (humanCompare == computerCompare)
   {
-    if (cardsAtStake[i] == NULL)
-    {
-      break;
-    }
-    else
-    {
-      continue;
-    }
-    index = i;
+    return 0;
   }
-  if (cardsAtStake[index-2] > cardsAtStake[index-1])
+  else if (humanCompare > computerCompare)
   {
     return 1;
   }
-  else if (cardsAtStake[index-2] < cardsAtStake[index-1])
+  else
   {
     return -1;
   }
-  else
+}
+
+int addToPile(struct Queue* cardsAtStake, struct Queue* winnerPile)
+{
+  for (int i = 0; i < cardsAtStake -> size; i++)
   {
-    return 0;
+    addQ(winnerPile, cardsAtStake -> array [cardsAtStake -> front]);
+    removeQ(cardsAtStake);
   }
 }
 // War game function
@@ -332,15 +333,13 @@ void war(){
   divideCards(humanPile, computerPile, deck);
   printf("Your pile\n"); //these are here mostly to check that divide cards method works
   printDeck(humanPile);
-  printf("Computer pile\n");
+  printf("\n\nComputer pile\n");
   printDeck(computerPile);
-  printf("Let's start the game!\n");
+  printf("\n\nLet's start the game!\n");
   sleep(1);
-  char enter;
-  while (humanPile->size != 52 || computerPile -> size != 52){
-    int cardsAtStake[52];
+  while (humanPile->size != 52 || computerPile -> size != 52){ //checking if either player has all 52 cards
+    struct Queue* cardsAtStake = createQ(52);
     draw(humanPile, computerPile, cardsAtStake);
-    compare(cardsAtStake);
     while (compare(cardsAtStake)==0)
     {
       drawWar(humanPile, computerPile, cardsAtStake);
@@ -349,10 +348,20 @@ void war(){
     if (compare(cardsAtStake) == -1)
     {
       printf("Computer wins cards and adds them to the bottom of their pile.\n");
+      addToPile(cardsAtStake, computerPile);
+      printf("New computer pile: \n");
+      printDeck(computerPile);
+      printf("New human pile: \n");
+      printDeck(humanPile);
     }
     else if (compare(cardsAtStake) == 1)
     {
       printf("You win cards and add them to the bottom of your pile.\n");
+      addToPile(cardsAtStake, humanPile);
+      printf("Your new pile: \n");
+      printDeck(humanPile);
+      printf("New computer pile: \n");
+      printDeck(computerPile);
     }
   }
    if (humanPile ->size == 52)
