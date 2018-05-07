@@ -30,7 +30,7 @@ int main() {
   srand(time(NULL));
   system("@cls||clear");
   printf("Welcome to our program!\n\n");
-  sleep(3);
+  sleep(1);
   gameOn();
   return 0;
 }
@@ -101,7 +101,7 @@ void blackjack(){
 void war(){
   gameCheck = 2;
   system("@cls||clear");
-  char placeholder; //clears input buffer
+  char placeholder;
   scanf("%c", &placeholder);
   char enter;
   printf("Welcome to the game of War! Here are the rules. Press enter after you read each step to move on to the next step.\n\n");
@@ -109,32 +109,42 @@ void war(){
   scanf("%c", &enter);
   while (enter != '\n')
   {
-    printf("Press enter to continue!");
+    printf("Press enter to continue!\n");
+    scanf("%c", &enter);
+    scanf("%c", &enter);
   }
   printf("Step 2: You will draw the topmost card from your pile and show it. The computer will do the same.\n\n");
   scanf("%c", &enter);
   while (enter != '\n')
   {
-    printf("Press enter to continue!");
+    printf("Press enter to continue!\n");
+    scanf("%c", &enter);
+    scanf("%c", &enter);
   }
   printf("Step 3: These cards' values will be compared, and whoever has the higher value will take both cards and put them at the bottom of their pile of cards.\n\n");
   scanf("%c", &enter);
   while (enter != '\n')
   {
-    printf("Press enter to continue!");
+    printf("Press enter to continue!\n");
+    scanf("%c", &enter);
+    scanf("%c", &enter);
   }
   printf("Step 4: If the cards are of the same rank, then it is War!! Draw 3 cards face-down, then draw the fourth card face-up. These cards' values will be compared, and whoever has the higher value will take all the cards! These will all be put at the bottom of their pile of cards.\n\n");
   scanf("%c", &enter);
   while (enter != '\n')
   {
-    printf("Press enter to continue!");
+    printf("Press enter to continue!\n");
+    scanf("%c", &enter);
+    scanf("%c", &enter);
   }
   printf("Step 5: Whoever ends up with all of the cards at the end of the game wins!\n\n");
   printf("When you are ready to play, press enter to start!");
   scanf("%c", &enter);
   while (enter != '\n')
   {
-    printf("Press enter to start playing!");
+    printf("Press enter to start playing!\n");
+    scanf("%c", &enter);
+    scanf("%c", &enter);
   }
   struct Queue* deck = createQ(52);
   printf("Shuffling the deck!\n\n");
@@ -149,7 +159,6 @@ void war(){
   printf("Computer pile\n");
   //printDeck(computerPile);
   printf("Believe it or not, you just played War!\n");
-
   quit();
 }
 
@@ -159,7 +168,7 @@ void gameOn(){
   printf("Please select your choice of game by pressing 1 for Blackjack or 2 for War: ");
   int game;
   scanf("%d", &game);
-  while (game != 1 && game != 2)
+  while ((game != 1 && game != 2) && (sizeof(game) != sizeof(int)))
   {
      printf("Not a valid option. Please select your choice of game by pressing 1 for Blackjack or 2 for War: "); // lol
      scanf("%d", &game);
@@ -169,14 +178,14 @@ void gameOn(){
     case 1:
       printf("Let's play Blackjack!\n\n\n\n");
       printf("Loading....\n");
-      sleep(5);
+      sleep(3);
       blackjack(); //calls the blackjack function
       break;
     case 2:
       printf("\n\n\n\n");
       printf("Let's play War!\n\n\n\n");
       printf("Loading....\n");
-      sleep(5);
+      sleep(3);
       war(); //calls the war function
       break;
   }
@@ -187,7 +196,7 @@ void quit(){
   printf("\nWould you like to quit? Press 3 if you want to quit, 4 if you want to play the same game, or 5 if you would like to play the other game: ");
   int decide;
   scanf("%d", &decide);
-  while ((decide != 3) && (decide != 4) && (decide != 5))
+  while ((decide != 3) && (decide != 4) && (decide != 5) && (sizeof(decide) != sizeof(int)))
   {
     printf("Not a valid option. Press 3 if you want to quit, 4 if you want to play the same game, or 5 if you would like to play the other game: ");
     scanf("%d", &decide);
@@ -200,7 +209,7 @@ void quit(){
     case 4:
       printf("Let's keep going with this game!\n\n");
       printf("Loading....\n");
-      sleep(5);
+      sleep(3);
       if (gameCheck == 1){ //if they already called the blackjack function, then gameCheck = 1
         blackjack();
       } // since gameCheck = 1, it re-calls the blackjack function
@@ -211,7 +220,7 @@ void quit(){
     case 5:
       printf("Let's play a different game!\n\n");
       printf("Loading....\n");
-      sleep(5);
+      sleep(3);
       if (gameCheck == 1){ //if they already called the blackjack function, then gameCheck = 1
         war();
       } // since gameCheck = 1, it re-calls the blackjack function
