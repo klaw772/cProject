@@ -67,65 +67,69 @@ void divideCards (struct Queue* humanPile, struct Queue* computerPile, struct Qu
 
 }
 
+
+void bjDraw(struct Queue* hHand, struct Queue* aDeck)
+{
+  int temp = removeQ(aDeck); //preserves data from the front of the deck
+  addQ(hHand, temp);
+}
+
 void stand(){
-  printf("you just got stood up bro\n");
+  printf("You chose to stand.\n");
+  printf("Your hand value is still %d. Dealer's turn!\n", playerValue);
+  sleep(1);
 }
 void hit(){
-  printf("HIT YO\n");
-  bet();
+  printf("You chose to hit. The previous value of your hand was %d.\n", playerValue);
+  bjDraw(humanHand, bjdeck);
+  printf("You were dealt a %s of %s\n", warface[humanHand -> array[humanHand -> front] % 13], warsuit[humanHand -> array [humanHand ->front] / 13]);
+  playerValue += *(warface[humanHand -> array[humanHand -> front] % 13]);
+  printf("Your new hand value is: %d\n", playerValue);
+  //bet();
   checkBust();
 }
-void checkBust(){
-  printf("BUSTED!\n");
-}
-void bet(){
-
-  //char answerTingy;
-  //printf("Would you like to bet some moneys? y or n :D\n");
-  //scanf("%c\n", &answerTingy);
-  //while ((answerTingy != 'y') || answerTingy != 'Y') {
-    /* code */
-  //}
+int checkBust(){
+  if (playerValue < 21)
+    return -1;
+  else if (playerValue == 21)
+    return 0;
+  else
+    return 1;
 }
 
-
-// A barebones function that sets global variable gameCheck to 1
-// and prints a successful game played message
 void blackjack(){
   gameCheck = 1;
   char turn;
-  int moneys = 10;
+  playerValue;
 
   blackjackRules();
   system("@cls||clear");
-
-  printf("What would you like your moneys to start wiff, yo? (The default is 10): \n");
-  scanf("%d\n", &moneys);
-
-  struct Queue* deck = createQ(52);
+  struct Queue* bjdeck = createQ(52);
   printf("Shuffling the deck!\n\n");
   sleep(2); //delays for aesthetic effect
-  shuffleDeck(deck);
+  shuffleDeck(bjdeck);
 
   struct Queue* humanHand = createQ(52);
   struct Queue* dealerHand = createQ(52);
 
-  while (moneys > 0){
-    printf("Would you like to hit or stand? Enter 'h' or 's': \n");
-    scanf("%c\n", &turn);
-      while (turn != 'h' || turn != 's') {
-        printf("KILL YO SELF (but naht just re-enter a letter, yo): \n");
-        scanf("%c\n", &turn);
-      }
-    switch(turn){
-      case 'h':
-        hit();
-        break;
-      case 's':
-        stand();
-        break;
+  while (checkBust() < 0){
+    printf("Would you like to hit, or stand? Enter either 'h' or 's': \n");
+    scanf("%c", &turn);
+    while ((turn != 'h') && (turn != 's')) {
+      printf("Please enter either h for hit, or s for stand!\n");
+      scanf("%c", &turn);
     }
+    if (turn == 'h')
+      hit();
+    else if (turn == 's')
+      stand();
   }
+  if (checkBust() == 0) {
+    printf("Blackjack! You Win!\n");
+  }
+  else
+    printf("You busted! Game over!\n");
+
 
   //Game flow:
   //deals 2 cards to player and to the dealer
@@ -173,14 +177,6 @@ void blackjackRules(){
     scanf("%c", &enter);
   }
   printf("Step 4: At the beginning of each turn, the player can choose to place a bet using their moneys. If you run out of moneys, then you lose the game. You will win the game once you collect 100 moneys!\n\n");
-  scanf("%c", &enter);
-  while (enter != '\n')
-  {
-    printf("Press enter to continue!\n");
-    scanf("%c", &enter);
-    scanf("%c", &enter);
-  }
-  //printf("Step 5: \n\n");
   printf("When you are ready to play, press enter to start!\n\n");
   scanf("%c", &enter);
   while (enter != '\n')
@@ -243,8 +239,6 @@ void warRules(){
 
 void draw(struct Queue* humanPile, struct Queue* computerPile, struct Queue* cardsAtStake)
 {
-  int htemp = removeQ(humanPile); //preserves data from the front of the human pile
-  int ctemp = removeQ(computerPile); //preserves data from the front of the computer pile
   char enter;
   printf("Press enter to draw your top card.\n\n");
   scanf("%c", &enter);
@@ -256,6 +250,8 @@ void draw(struct Queue* humanPile, struct Queue* computerPile, struct Queue* car
   }
   printf("Your card is: %s of %s\n", warface[humanPile -> array[humanPile -> front] % 13], warsuit[humanPile -> array [humanPile ->front] / 13]);
   printf("The computer's card is: %s of %s\n", warface[computerPile -> array[computerPile -> front] % 13], warsuit[computerPile -> array[computerPile -> front] / 13]);
+  int htemp = removeQ(humanPile); //preserves data from the front of the human pile
+  int ctemp = removeQ(computerPile); //preserves data from the front of the computer pile
   addQ(cardsAtStake, htemp);
   addQ(cardsAtStake, ctemp);
 }
@@ -263,8 +259,8 @@ void draw(struct Queue* humanPile, struct Queue* computerPile, struct Queue* car
 void drawWar(struct Queue* humanPile, struct Queue* computerPile, struct Queue* cardsAtStake)
 {
   char enter;
-  printf("WAR!!!\n\n");
-  printf("Pres enter to draw your next card face down, and then drop the second card face up.\n\n");
+  printf("WAR!!!\n");
+  printf("Press enter to draw your next card face down, and then drop the second card face up.\n\n");
   scanf("%c", &enter);
   while (enter != '\n')
   {
@@ -274,11 +270,10 @@ void drawWar(struct Queue* humanPile, struct Queue* computerPile, struct Queue* 
   }
   addQ(cardsAtStake, removeQ(humanPile));
   addQ(cardsAtStake, removeQ(computerPile));
-  printf("\n\nYour second card is: %s of %s\n", warface[humanPile -> array[humanPile -> front] % 13], warsuit[humanPile -> array [humanPile -> front] / 13]);
-  printf("\n\nThe computer's second card is: %s of %s\n", warface[computerPile -> array[computerPile -> front] % 13], warsuit[computerPile -> array[computerPile -> front] / 13]);
+  printf("Your second card is: %s of %s\n", warface[humanPile -> array[humanPile -> front] % 13], warsuit[humanPile -> array [humanPile -> front] / 13]);
+  printf("The computer's second card is: %s of %s\n", warface[computerPile -> array[computerPile -> front] % 13], warsuit[computerPile -> array[computerPile -> front] / 13]);
   addQ(cardsAtStake, removeQ(humanPile));
   addQ(cardsAtStake, removeQ(computerPile));
-
 }
 
 int compare(struct Queue* cardsAtStake)
@@ -305,7 +300,7 @@ int addToPile(struct Queue* cardsAtStake, struct Queue* winnerPile)
 {
   for (int i = 0; i < cardsAtStake -> size; i++)
   {
-    addQ(winnerPile, removeQ(cardsAtStake));
+    addQ(winnerPile, cardsAtStake -> array[i]);
   }
 }
 // War game function
@@ -321,11 +316,11 @@ void war(){
   struct Queue* humanPile = createQ(52); //queues with max capacities of 52
   struct Queue* computerPile = createQ(52);
   divideCards(humanPile, computerPile, deck);
-  //printf("Your pile\n"); //these are here mostly to check that divide cards method works
+  //printf("Your pile\n\n-----------------------"); //these are here mostly to check that divide cards method works
   //printDeck(humanPile);
   //printf("\n\nComputer pile\n");
   //printDeck(computerPile);
-  //printf("\n\nLet's start the game!\n\n");
+  printf("\n\nLet's start the game!\n\n");
   sleep(1);
   while (humanPile->size != 52 || computerPile -> size != 52){ //checking if either player has all 52 cards
     struct Queue* cardsAtStake = createQ(52);
@@ -335,23 +330,26 @@ void war(){
       drawWar(humanPile, computerPile, cardsAtStake);
 
     }
+    //printDeck(humanPile);
+    //printf("\n------------------------\n");
+    //printDeck(computerPile);
     if (compare(cardsAtStake) == -1)
     {
       printf("Computer wins cards and adds them to the bottom of their pile.\n");
       addToPile(cardsAtStake, computerPile);
-      printf("\n\nNew computer pile: \n");
-      printDeck(computerPile);
-      printf("\n\nNew human pile: \n");
-      printDeck(humanPile);
+      //printf("\n\nNew computer pile: \n");
+      //printDeck(computerPile);
+      //printf("\n\n-------------------------\nNew human pile: \n");
+      //printDeck(humanPile);
     }
     else if (compare(cardsAtStake) == 1)
     {
       printf("You win cards and add them to the bottom of your pile.\n");
       addToPile(cardsAtStake, humanPile);
-      printf("Your new pile: \n");
-      printDeck(humanPile);
-      printf("New computer pile: \n");
-      printDeck(computerPile);
+      //printf("Your new pile: \n");
+      //printDeck(humanPile);
+      //printf("New computer pile: \n");
+      //printDeck(computerPile);
     }
   }
    if (humanPile ->size == 52)
