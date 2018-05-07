@@ -243,6 +243,8 @@ void warRules(){
 
 void draw(struct Queue* humanPile, struct Queue* computerPile, struct Queue* cardsAtStake)
 {
+  int htemp = removeQ(humanPile); //preserves data from the front of the human pile
+  int ctemp = removeQ(computerPile); //preserves data from the front of the computer pile
   char enter;
   printf("Press enter to draw your top card.\n\n");
   scanf("%c", &enter);
@@ -254,10 +256,6 @@ void draw(struct Queue* humanPile, struct Queue* computerPile, struct Queue* car
   }
   printf("Your card is: %s of %s\n", warface[humanPile -> array[humanPile -> front] % 13], warsuit[humanPile -> array [humanPile ->front] / 13]);
   printf("The computer's card is: %s of %s\n", warface[computerPile -> array[computerPile -> front] % 13], warsuit[computerPile -> array[computerPile -> front] / 13]);
-  int htemp = humanPile -> array[humanPile -> front]; //preserves data from the front of the human pile
-  int ctemp = computerPile -> array[computerPile -> front]; //preserves data from the front of the computer pile
-  removeQ(humanPile);
-  removeQ(computerPile);
   addQ(cardsAtStake, htemp);
   addQ(cardsAtStake, ctemp);
 }
@@ -274,21 +272,12 @@ void drawWar(struct Queue* humanPile, struct Queue* computerPile, struct Queue* 
     scanf("%c", &enter);
     scanf("%c", &enter);
   }
-  int htemp1, htemp2, ctemp1, ctemp2;
-  htemp1 = humanPile -> array [humanPile -> front];
-  ctemp1 = computerPile -> array [computerPile -> front];
-  removeQ(humanPile);
-  removeQ(computerPile);
-  addQ(cardsAtStake, htemp1);
-  addQ(cardsAtStake, ctemp1);
+  addQ(cardsAtStake, removeQ(humanPile));
+  addQ(cardsAtStake, removeQ(computerPile));
   printf("\n\nYour second card is: %s of %s\n", warface[humanPile -> array[humanPile -> front] % 13], warsuit[humanPile -> array [humanPile -> front] / 13]);
   printf("\n\nThe computer's second card is: %s of %s\n", warface[computerPile -> array[computerPile -> front] % 13], warsuit[computerPile -> array[computerPile -> front] / 13]);
-  htemp2 = humanPile -> array [humanPile -> front];
-  ctemp2 = computerPile -> array [computerPile -> front];
-  removeQ(humanPile);
-  removeQ(computerPile);
-  addQ(cardsAtStake, htemp2);
-  addQ(cardsAtStake, ctemp2);
+  addQ(cardsAtStake, removeQ(humanPile));
+  addQ(cardsAtStake, removeQ(computerPile));
 
 }
 
@@ -316,8 +305,7 @@ int addToPile(struct Queue* cardsAtStake, struct Queue* winnerPile)
 {
   for (int i = 0; i < cardsAtStake -> size; i++)
   {
-    addQ(winnerPile, cardsAtStake -> array [cardsAtStake -> front]);
-    removeQ(cardsAtStake);
+    addQ(winnerPile, removeQ(cardsAtStake));
   }
 }
 // War game function
@@ -333,11 +321,11 @@ void war(){
   struct Queue* humanPile = createQ(52); //queues with max capacities of 52
   struct Queue* computerPile = createQ(52);
   divideCards(humanPile, computerPile, deck);
-  printf("Your pile\n"); //these are here mostly to check that divide cards method works
-  printDeck(humanPile);
-  printf("\n\nComputer pile\n");
-  printDeck(computerPile);
-  printf("\n\nLet's start the game!\n\n");
+  //printf("Your pile\n"); //these are here mostly to check that divide cards method works
+  //printDeck(humanPile);
+  //printf("\n\nComputer pile\n");
+  //printDeck(computerPile);
+  //printf("\n\nLet's start the game!\n\n");
   sleep(1);
   while (humanPile->size != 52 || computerPile -> size != 52){ //checking if either player has all 52 cards
     struct Queue* cardsAtStake = createQ(52);
