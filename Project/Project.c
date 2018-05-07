@@ -38,7 +38,7 @@ void printDeck(struct Queue* deck){
        int card = deck->array[i];
        int suit = card / 13;
        int face = card % 13;
-       printf("%s of %s\n", faces_str[face], suits_str[suit]);
+       printf("%s of %s\n", warface[face], warsuit[suit]);
      }
 }
 
@@ -79,13 +79,24 @@ void divideCards (struct Queue* humanPile, struct Queue* computerPile, struct Qu
 }
 
 void stand(){
-
+  printf("you just got stood up bro\n");
 }
 void hit(){
-
+  printf("HIT YO\n");
+  bet();
+  checkBust();
 }
 void checkBust(){
+  printf("BUSTED!\n");
+}
+void bet(){
 
+  //char answerTingy;
+  //printf("Would you like to bet some moneys? y or n :D\n");
+  //scanf("%c\n", &answerTingy);
+  //while ((answerTingy != 'y') || answerTingy != 'Y') {
+    /* code */
+  //}
 }
 
 
@@ -111,15 +122,18 @@ void blackjack(){
   struct Queue* dealerHand = createQ(52);
 
   while (moneys > 0){
+    printf("Would you like to hit or stand? Enter 'h' or 's': \n");
     scanf("%c\n", &turn);
       while (turn != 'h' || turn != 's') {
-        printf("KILL YO SELF (but naht just re-enter a letter, yo)\n");
+        printf("KILL YO SELF (but naht just re-enter a letter, yo): \n");
         scanf("%c\n", &turn);
       }
     switch(turn){
       case 'h':
+        hit();
         break;
       case 's':
+        stand();
         break;
     }
   }
@@ -145,7 +159,7 @@ void blackjackRules(){
   scanf("%c", &placeholder);
   char enter;
   printf("Welcome to the game of Blackjack! Here are the rules. Press enter after you read each step to move on to the next step.\n\n");
-  printf("Step 1: \n\n"); //starting the rules
+  printf("Step 1: The goal of Blackjack is to get closer than the dealer to a hand value of 21. Cards 2-9 are face value, cards 10-k are worth 10, and aces are worth either 1 or 11. \n\n"); //starting the rules
   scanf("%c", &enter);
   while (enter != '\n')
   {
@@ -153,7 +167,7 @@ void blackjackRules(){
     scanf("%c", &enter);
     scanf("%c", &enter);
   }
-  printf("Step 2: \n\n");
+  printf("Step 2: When the game starts, each player (including the dealer) is dealt 2 cards which are displayed face up. After this, players place their bets and their turn starts!\n\n");
   scanf("%c", &enter);
   while (enter != '\n')
   {
@@ -161,7 +175,7 @@ void blackjackRules(){
     scanf("%c", &enter);
     scanf("%c", &enter);
   }
-  printf("Step 3: \n\n");
+  printf("Step 3: On a player's turn, they are prompted to either hit or stand. Hitting is the act of being dealt a card, which increases your total hand value. This gets you potentially closer to the value of 21, although it also runs the risk of Busting -- going over 23 and losing the hand. Alternatively, the player can stand and let the dealer draw a card instead.\n\n");
   scanf("%c", &enter);
   while (enter != '\n')
   {
@@ -169,7 +183,7 @@ void blackjackRules(){
     scanf("%c", &enter);
     scanf("%c", &enter);
   }
-  printf("Step 4: \n\n");
+  printf("Step 4: At the beginning of each turn, the player can choose to place a bet using their moneys. If you run out of moneys, then you lose the game. You will win the game once you collect 100 moneys!\n\n");
   scanf("%c", &enter);
   while (enter != '\n')
   {
@@ -177,8 +191,8 @@ void blackjackRules(){
     scanf("%c", &enter);
     scanf("%c", &enter);
   }
-  printf("Step 5: \n\n");
-  printf("When you are ready to play, press enter to start!");
+  //printf("Step 5: \n\n");
+  printf("When you are ready to play, press enter to start!\n\n");
   scanf("%c", &enter);
   while (enter != '\n')
   {
@@ -228,7 +242,7 @@ void warRules(){
     scanf("%c", &enter);
   }
   printf("Step 5: Whoever ends up with all of the cards at the end of the game wins!\n\n");
-  printf("When you are ready to play, press enter to start!");
+  printf("When you are ready to play, press enter to start!\n\n");
   scanf("%c", &enter);
   while (enter != '\n')
   {
@@ -238,8 +252,9 @@ void warRules(){
   }
 }
 
-void draw(struct Queue* humanPile, struct Queue* computerPile, int[] cardsAtStake)
+void draw(struct Queue* humanPile, struct Queue* computerPile, int cardsAtStake[])
 {
+  char enter;
   printf("Press enter to draw your top card.");
   scanf("%c", &enter);
   while (enter != '\n')
@@ -248,39 +263,38 @@ void draw(struct Queue* humanPile, struct Queue* computerPile, int[] cardsAtStak
     scanf("%c", &enter);
     scanf("%c", &enter);
   }
-  printf("Your card is: %s of %s\n", faces_str[humanPile -> array[front] % 13], suits_str[humanPile -> array [front] / 13]);
-  printf("The computer's card is: %s of %s\n", faces_str[computerPile -> array[front] % 13], suits_str[computerPile -> array[front] / 13]);
-  int hcompare = humanPile -> array[front]; //preserves data from the front of the human pile
-  int ccompare = computerPile -> array[front]; //preserves data from the front of the computer pile
+  printf("Your card is: %s of %s\n", warface[humanPile -> array[humanPile -> front] % 13], warsuit[humanPile -> array [humanPile ->front] / 13]);
+  printf("The computer's card is: %s of %s\n", warface[computerPile -> array[computerPile -> front] % 13], warsuit[computerPile -> array[computerPile -> front] / 13]);
+  int hcompare = humanPile -> array[humanPile -> front]; //preserves data from the front of the human pile
+  int ccompare = computerPile -> array[computerPile -> front]; //preserves data from the front of the computer pile
   removeQ(humanPile);
   removeQ(computerPile);
   cardsAtStake[0] = hcompare;
   cardsAtStake[1] = ccompare;
 }
 
-void drawWar(struct Queue* humanPile, struct Queue* computerPile, int[] cardsAtStake)
+void drawWar(struct Queue* humanPile, struct Queue* computerPile, int cardsAtStake[])
 {
-  printf("WAR!!!");
-  printf("Draw your next top 3 cards face down, and then drop the fourth card face up.");
+  printf("WAR!!!\n");
+  printf("Draw your next top 3 cards face down, and then drop the fourth card face up.\n");
   for (int i = 0; i < 2; i++)
   {
     for (int j = 0; j < 2; j++)
     {
-
+      removeQ(humanPile);
+      removeQ(computerPile);
     }
-    removeQ(humanPile);
-    removeQ(computerPile);
   }
-  printf("Your fourth card is: %s of %s\n", faces_str[humanPile -> array[front] % 13], suits_str[humanPile -> array [front] / 13]);
-  printf("The computer's fourth card is: %s of %s\n", faces_str[computerPile -> array[front] % 13], suits_str[computerPile -> array[front] / 13]);
+  printf("Your fourth card is: %s of %s\n", warface[humanPile -> array[humanPile -> front] % 13], warsuit[humanPile -> array [humanPile -> front] / 13]);
+  printf("The computer's fourth card is: %s of %s\n", warface[computerPile -> array[computerPile -> front] % 13], warsuit[computerPile -> array[computerPile -> front] / 13]);
 }
 
-int compare(int[] cardsAtStake)
+int compare(int cardsAtStake[])
 {
   int index;
-  for (int i = 0; i < 51; i++)
+  for (int i = 0; i < 51; i++) //finding first empty index
   {
-    if (cardsAtStake[i] == null)
+    if (cardsAtStake[i] == NULL)
     {
       break;
     }
@@ -290,7 +304,18 @@ int compare(int[] cardsAtStake)
     }
     index = i;
   }
-  if (cardsAtStake)
+  if (cardsAtStake[index-2] > cardsAtStake[index-1])
+  {
+    return 1;
+  }
+  else if (cardsAtStake[index-2] < cardsAtStake[index-1])
+  {
+    return -1;
+  }
+  else
+  {
+    return 0;
+  }
 }
 // War game function
 void war(){
@@ -305,21 +330,39 @@ void war(){
   struct Queue* humanPile = createQ(52); //queues with max capacities of 52
   struct Queue* computerPile = createQ(52);
   divideCards(humanPile, computerPile, deck);
-  //printf("Your pile\n"); //these are here mostly to check that divide cards method works
-  //printDeck(humanPile);
-  //printf("Computer pile\n");
-  //printDeck(computerPile);
-  printf("Let's start the game!");
+  printf("Your pile\n"); //these are here mostly to check that divide cards method works
+  printDeck(humanPile);
+  printf("Computer pile\n");
+  printDeck(computerPile);
+  printf("Let's start the game!\n");
   sleep(1);
   char enter;
-  while (humanPile->size != 52 || computer -> size != 52){
+  while (humanPile->size != 52 || computerPile -> size != 52){
     int cardsAtStake[52];
     draw(humanPile, computerPile, cardsAtStake);
-    while (cardsAtStake[0] == cardsAtStake[0])
+    compare(cardsAtStake);
+    while (compare(cardsAtStake)==0)
     {
       drawWar(humanPile, computerPile, cardsAtStake);
+
+    }
+    if (compare(cardsAtStake) == -1)
+    {
+      printf("Computer wins cards and adds them to the bottom of their pile.\n");
+    }
+    else if (compare(cardsAtStake) == 1)
+    {
+      printf("You win cards and add them to the bottom of your pile.\n");
     }
   }
+   if (humanPile ->size == 52)
+   {
+     printf("You win!\n");
+   }
+   else if (computerPile -> size == 52)
+   {
+     printf("The computer wins!\n");
+   }
   printf("Believe it or not, you just played War!\n");
   quit();
 }

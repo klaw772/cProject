@@ -7,8 +7,8 @@ int face;
 enum suits { SPADES, HEARTS, DIAMONDS, CLUBS };
 enum faces { TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN,
              JACK, QUEEN, KING, ACE };
-char *suits_str[4] = {"Spades", "Hearts", "Diamonds", "Clubs"};
-char *faces_str[13] = {"2", "3", "4", "5", "6", "7", "8", "9",
+char *warsuit[4] = {"Spades", "Hearts", "Diamonds", "Clubs"};
+char *warface[13] = {"2", "3", "4", "5", "6", "7", "8", "9",
             "10", "Jack", "Queen", "King", "Ace"};
 
 //some function prototypes
@@ -24,6 +24,7 @@ void blackjackRules();
 void hit();
 void stand();
 void checkBust();
+void bet();
 
 /*
 ** QUEUE IMPLEMENTATION
