@@ -292,7 +292,7 @@ void drawWar(struct Queue* humanPile, struct Queue* computerPile, int cardsAtSta
 int compare(int cardsAtStake[])
 {
   int index;
-  for (int i = 0; i < 51; i++) //finding first empty index
+  for (int i = 0; i < sizeof(cardsAtStake); i++) //finding first empty index
   {
     if (cardsAtStake[i] == NULL)
     {
