@@ -244,11 +244,11 @@ void warRules(){
 void draw(struct Queue* humanPile, struct Queue* computerPile, struct Queue* cardsAtStake)
 {
   char enter;
-  printf("Press enter to draw your top card.");
+  printf("Press enter to draw your top card.\n\n");
   scanf("%c", &enter);
   while (enter != '\n')
   {
-    printf("Press enter to draw your top card!\n");
+    printf("Press enter to draw your top card!\n\n");
     scanf("%c", &enter);
     scanf("%c", &enter);
   }
@@ -265,8 +265,8 @@ void draw(struct Queue* humanPile, struct Queue* computerPile, struct Queue* car
 void drawWar(struct Queue* humanPile, struct Queue* computerPile, struct Queue* cardsAtStake)
 {
   char enter;
-  printf("WAR!!!\n");
-  printf("Pres enter to draw your next card face down, and then drop the second card face up.\n");
+  printf("WAR!!!\n\n");
+  printf("Pres enter to draw your next card face down, and then drop the second card face up.\n\n");
   scanf("%c", &enter);
   while (enter != '\n')
   {
@@ -281,8 +281,8 @@ void drawWar(struct Queue* humanPile, struct Queue* computerPile, struct Queue* 
   removeQ(computerPile);
   addQ(cardsAtStake, htemp1);
   addQ(cardsAtStake, ctemp1);
-  printf("Your second card is: %s of %s\n", warface[humanPile -> array[humanPile -> front] % 13], warsuit[humanPile -> array [humanPile -> front] / 13]);
-  printf("The computer's second card is: %s of %s\n", warface[computerPile -> array[computerPile -> front] % 13], warsuit[computerPile -> array[computerPile -> front] / 13]);
+  printf("\n\nYour second card is: %s of %s\n", warface[humanPile -> array[humanPile -> front] % 13], warsuit[humanPile -> array [humanPile -> front] / 13]);
+  printf("\n\nThe computer's second card is: %s of %s\n", warface[computerPile -> array[computerPile -> front] % 13], warsuit[computerPile -> array[computerPile -> front] / 13]);
   htemp2 = humanPile -> array [humanPile -> front];
   ctemp2 = computerPile -> array [computerPile -> front];
   removeQ(humanPile);
@@ -294,13 +294,15 @@ void drawWar(struct Queue* humanPile, struct Queue* computerPile, struct Queue* 
 
 int compare(struct Queue* cardsAtStake)
 {
-  int humanCompare = cardsAtStake -> array [cardsAtStake -> size - 1];
-  int computerCompare = cardsAtStake -> array [cardsAtStake -> size];
-  if (humanCompare == computerCompare)
+  int humanCompare = cardsAtStake -> array [cardsAtStake -> size - 2];
+  int hcompareface = humanCompare % 13;
+  int computerCompare = cardsAtStake -> array [cardsAtStake -> size - 1];
+  int ccompareface = computerCompare % 13;
+  if (warface[hcompareface] == warface[ccompareface])
   {
     return 0;
   }
-  else if (humanCompare > computerCompare)
+  else if (warface[hcompareface] > warface[ccompareface])
   {
     return 1;
   }
@@ -335,7 +337,7 @@ void war(){
   printDeck(humanPile);
   printf("\n\nComputer pile\n");
   printDeck(computerPile);
-  printf("\n\nLet's start the game!\n");
+  printf("\n\nLet's start the game!\n\n");
   sleep(1);
   while (humanPile->size != 52 || computerPile -> size != 52){ //checking if either player has all 52 cards
     struct Queue* cardsAtStake = createQ(52);
@@ -349,9 +351,9 @@ void war(){
     {
       printf("Computer wins cards and adds them to the bottom of their pile.\n");
       addToPile(cardsAtStake, computerPile);
-      printf("New computer pile: \n");
+      printf("\n\nNew computer pile: \n");
       printDeck(computerPile);
-      printf("New human pile: \n");
+      printf("\n\nNew human pile: \n");
       printDeck(humanPile);
     }
     else if (compare(cardsAtStake) == 1)
