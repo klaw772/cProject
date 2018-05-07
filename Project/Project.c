@@ -10,41 +10,39 @@
 ** GAME IMPLEMENTATION
 */
 
-
 // main method
 int main() {
   srand(time(NULL));
-  system("@cls||clear");
+  system("@cls||clear"); //clear screen
   printf("Welcome to our program!\n\n");
   sleep(1);
-  gameOn();
+  gameOn(); //chooses game
   return 0;
 }
 
  //prints the face and suit of each card in the deck
 void printDeck(struct Queue* deck){
-  for (int i = 0; i < deck->size; i++) {
+  for (int i = 0; i < deck->size; i++) { //iterates through the entire deck to print cards
        int card = deck->array[i];
-       int suit = card / 13;
-       int face = card % 13;
-       printf("%s of %s\n", warface[face], warsuit[suit]);
+       int suit = card / 13; //calculates suit value 
+       int face = card % 13; //calculates face value, each card will have a unique suit and face combo
+       printf("%s of %s\n", warface[face], warsuit[suit]); //prints card value and suit in string form 
      }
 }
 
 // creates and shuffles the deck
 void shuffleDeck(struct Queue* deck){
   for (int i = 0; i < deck -> capacity; i++) {
-       /* start with a sorted deck */
+       //starts with a sorted deck and adds each card to the deck
      addQ(deck, i);
    }
 
   for (int i = 0; i < 1000; i++) {
-    /* shuffle by swapping cards pseudo-randomly a 1000 times */
     int from = rand() % deck->capacity;
     int to = rand() % deck->capacity;
     int card = deck->array[from];
     deck->array[from] = deck->array[to];
-    deck->array[to] = card;
+    deck->array[to] = card; //uses swaps at random positions in the deck 1000 times to finish in random positions
   }
 
 }
@@ -55,12 +53,12 @@ void divideCards (struct Queue* humanPile, struct Queue* computerPile, struct Qu
   for (int i = 0; i < deck -> capacity; i++){
     if (flip == 0)
     {
-      addQ(humanPile, deck -> array[i]);
+      addQ(humanPile, deck -> array[i]); //added to human pile
       flip = 1;
     }
     else if (flip == 1)
     {
-      addQ(computerPile, deck -> array[i]);
+      addQ(computerPile, deck -> array[i]); //added to computer pile
       flip = 0;
     }
   }
@@ -146,7 +144,7 @@ void blackjack(){
 }
 
 
-void blackjackRules(){
+void blackjackRules(){ //prints the rules of blackjack, pressing enter between each step
   system("@cls||clear");
   char placeholder;
   scanf("%c", &placeholder);
@@ -157,7 +155,7 @@ void blackjackRules(){
   while (enter != '\n')
   {
     printf("Press enter to continue!\n");
-    scanf("%c", &enter);
+    scanf("%c", &enter); //these are used if the user presses a key that's not enter
     scanf("%c", &enter);
   }
   printf("Step 2: When the game starts, each player (including the dealer) is dealt 2 cards which are displayed face up. After this, players place their bets and their turn starts!\n\n");
@@ -188,7 +186,7 @@ void blackjackRules(){
 }
 
 
-void warRules(){
+void warRules(){ //prints the rules of war, pressing enter between each step
   system("@cls||clear");
   char placeholder;
   scanf("%c", &placeholder);
@@ -198,7 +196,7 @@ void warRules(){
   scanf("%c", &enter);
   while (enter != '\n')
   {
-    printf("Press enter to continue!\n");
+    printf("Press enter to continue!\n"); //these are used if the user presses a key that's not enter
     scanf("%c", &enter);
     scanf("%c", &enter);
   }
@@ -237,26 +235,27 @@ void warRules(){
   }
 }
 
-void draw(struct Queue* humanPile, struct Queue* computerPile, struct Queue* cardsAtStake)
+void draw(struct Queue* humanPile, struct Queue* computerPile, struct Queue* cardsAtStake) //draws the top card of each player's piles of cards face up and puts the values into a separate queue for whoever wins
 {
   char enter;
   printf("Press enter to draw your top card.\n\n");
   scanf("%c", &enter);
   while (enter != '\n')
   {
-    printf("Press enter to draw your top card!\n\n");
+    printf("Press enter to draw your top card!\n\n"); //these are used if the user presses a key that's not enter
     scanf("%c", &enter);
     scanf("%c", &enter);
   }
-  printf("Your card is: %s of %s\n", warface[humanPile -> array[humanPile -> front] % 13], warsuit[humanPile -> array [humanPile ->front] / 13]);
-  printf("The computer's card is: %s of %s\n", warface[computerPile -> array[computerPile -> front] % 13], warsuit[computerPile -> array[computerPile -> front] / 13]);
+  printf("Your card is: %s of %s\n", warface[humanPile -> array[humanPile -> front] % 13], warsuit[humanPile -> array [humanPile ->front] / 13]); //displays human top card
+  printf("The computer's card is: %s of %s\n", warface[computerPile -> array[computerPile -> front] % 13], warsuit[computerPile -> array[computerPile -> front] / 13]); //displays computer top card
   int htemp = removeQ(humanPile); //preserves data from the front of the human pile
   int ctemp = removeQ(computerPile); //preserves data from the front of the computer pile
-  addQ(cardsAtStake, htemp);
+  //adds this data to the cardsAtStake queue for whoever wins the round
+  addQ(cardsAtStake, htemp);  //human's card is put in the queue before the computer's card every round
   addQ(cardsAtStake, ctemp);
 }
 
-void drawWar(struct Queue* humanPile, struct Queue* computerPile, struct Queue* cardsAtStake)
+void drawWar(struct Queue* humanPile, struct Queue* computerPile, struct Queue* cardsAtStake) //draws two cards (the first face down and the second face up) and puts all the values into separate queue
 {
   char enter;
   printf("WAR!!!\n");
@@ -268,7 +267,7 @@ void drawWar(struct Queue* humanPile, struct Queue* computerPile, struct Queue* 
     scanf("%c", &enter);
     scanf("%c", &enter);
   }
-  addQ(cardsAtStake, removeQ(humanPile));
+  addQ(cardsAtStake, removeQ(humanPile)); 
   addQ(cardsAtStake, removeQ(computerPile));
   printf("Your second card is: %s of %s\n", warface[humanPile -> array[humanPile -> front] % 13], warsuit[humanPile -> array [humanPile -> front] / 13]);
   printf("The computer's second card is: %s of %s\n", warface[computerPile -> array[computerPile -> front] % 13], warsuit[computerPile -> array[computerPile -> front] / 13]);
@@ -276,27 +275,27 @@ void drawWar(struct Queue* humanPile, struct Queue* computerPile, struct Queue* 
   addQ(cardsAtStake, removeQ(computerPile));
 }
 
-int compare(struct Queue* cardsAtStake)
+int compare(struct Queue* cardsAtStake) //compares the last two cards added to the cardsAtStake queue (the most recent cards placed into the queue) and checks whose value is greater: human or computer
 {
-  int humanCompare = cardsAtStake -> array [cardsAtStake -> size - 2];
-  int hcompareface = humanCompare % 13;
-  int computerCompare = cardsAtStake -> array [cardsAtStake -> size - 1];
+  int humanCompare = cardsAtStake -> array [cardsAtStake -> size - 2]; //human pile's last card in the cardsAtStake to compare
+  int hcompareface = humanCompare % 13; //
+  int computerCompare = cardsAtStake -> array [cardsAtStake -> size - 1]; //computer pile's last card in the cardsAtStake to compare
   int ccompareface = computerCompare % 13;
-  if (warface[hcompareface] == warface[ccompareface])
+  if (warface[hcompareface] == warface[ccompareface]) //tie value
   {
     return 0;
   }
-  else if (warface[hcompareface] > warface[ccompareface])
+  else if (warface[hcompareface] > warface[ccompareface]) //human wins the round
   {
     return 1;
   }
-  else
+  else //computer wins the round
   {
     return -1;
   }
 }
 
-int addToPile(struct Queue* cardsAtStake, struct Queue* winnerPile)
+int addToPile(struct Queue* cardsAtStake, struct Queue* winnerPile) //adds the values in cardsAtStake to the winners' pile as found with compare
 {
   for (int i = 0; i < cardsAtStake -> size; i++)
   {
@@ -307,7 +306,7 @@ int addToPile(struct Queue* cardsAtStake, struct Queue* winnerPile)
 void war(){
   gameCheck = 2;
   warRules();
-  struct Queue* deck = createQ(52);
+  struct Queue* deck = createQ(52); //creates standard deck
   printf("Shuffling the deck!\n\n");
   sleep(2); //delays for aesthetic effect
   shuffleDeck(deck);
@@ -322,34 +321,23 @@ void war(){
   //printDeck(computerPile);
   printf("\n\nLet's start the game!\n\n");
   sleep(1);
-  while (humanPile->size != 52 || computerPile -> size != 52){ //checking if either player has all 52 cards
+  while (humanPile->size != 52 || computerPile -> size != 52){ //checking if either player has all 52 cards, where the game would end
     struct Queue* cardsAtStake = createQ(52);
-    draw(humanPile, computerPile, cardsAtStake);
-    while (compare(cardsAtStake)==0)
+    draw(humanPile, computerPile, cardsAtStake); //initial draw of the top cards in each player's pile
+    while (compare(cardsAtStake)==0) //tie is found and until the war is resolved where one value is greater than the other, the drawWar function takes place
     {
-      drawWar(humanPile, computerPile, cardsAtStake);
+      drawWar(humanPile, computerPile, cardsAtStake); 
 
     }
-    //printDeck(humanPile);
-    //printf("\n------------------------\n");
-    //printDeck(computerPile);
-    if (compare(cardsAtStake) == -1)
+    if (compare(cardsAtStake) == -1) //computer wins the round
     {
       printf("Computer wins cards and adds them to the bottom of their pile.\n");
       addToPile(cardsAtStake, computerPile);
-      //printf("\n\nNew computer pile: \n");
-      //printDeck(computerPile);
-      //printf("\n\n-------------------------\nNew human pile: \n");
-      //printDeck(humanPile);
     }
-    else if (compare(cardsAtStake) == 1)
+    else if (compare(cardsAtStake) == 1) //human wins the round
     {
       printf("You win cards and add them to the bottom of your pile.\n");
       addToPile(cardsAtStake, humanPile);
-      //printf("Your new pile: \n");
-      //printDeck(humanPile);
-      //printf("New computer pile: \n");
-      //printDeck(computerPile);
     }
   }
    if (humanPile ->size == 52)
@@ -372,7 +360,7 @@ void gameOn(){
   scanf("%d", &game);
   while ((game != 1 && game != 2) && (sizeof(game) != sizeof(int)))
   {
-     printf("Not a valid option. Please select your choice of game by pressing 1 for Blackjack or 2 for War: "); // lol
+     printf("Not a valid option. Please select your choice of game by pressing 1 for Blackjack or 2 for War: "); 
      scanf("%d", &game);
   }
   switch(game)

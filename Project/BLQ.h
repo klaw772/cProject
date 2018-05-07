@@ -40,9 +40,7 @@ void stand();
 int checkBust();
 void bjDraw();
 
-/*
-** QUEUE IMPLEMENTATION
-*/
+//IMPLEMENTATION OF QUEUE
 
 struct Queue {
   int front, back, size;
@@ -51,26 +49,28 @@ struct Queue {
 };
 
 //creates a queue
-struct Queue* createQ(unsigned capacity){
-  struct Queue* queue = (struct Queue*) malloc(sizeof(struct Queue));
+struct Queue* createQ(int capacity){
+  struct Queue* queue = malloc(sizeof(struct Queue));
   queue->capacity = capacity;
   queue->front = queue->size = 0;
   queue->back = capacity - 1;
-  queue->array = (int*) malloc(queue->capacity * sizeof(int));
+  queue->array = malloc(queue->capacity * sizeof(int));
   return queue;
-}
-//checks to see if the queue is full
-int isFull(struct Queue* queue){
-  return (queue->size == queue->capacity);
 }
 //checks to see if the queue is empty
 int isEmpty(struct Queue* queue){
   return (queue->size == 0);
 }
+
+//checks to see if the queue is full
+int isFull(struct Queue* queue){
+  return (queue->size == queue->capacity);
+}
+
 //adds an element to the back of the queue
 void addQ(struct Queue* queue, int data){
   if (isFull(queue))
-    return;
+    printf("Queue is full!");
   queue->back = (queue->back + 1)%queue->capacity;
   queue->array[queue->back] = data;
   queue->size = queue->size + 1;
@@ -84,23 +84,5 @@ int removeQ(struct Queue* queue){
   queue->size = queue->size - 1;
   return data;
 }
-//prints the element at the front of the queue
-int frontQ(struct Queue* queue){
-  if (isEmpty(queue)){
-    printf("There are no elements in the queue!\n");
-    return 0;
-  }
-  return queue->array[queue->front];
-}
-//prints the element at the back of the queue
-int backQ(struct Queue* queue){
-  if (isEmpty(queue)){
-    printf("There are no elements in the queue!\n");
-    return 0;
-  }
-  return queue->array[queue->back];
-}
 
-/*
-** QUEUE IMPLEMENTATION ENDS
-*/
+//END OF QUEUE IMPLEMENTATION
