@@ -20,6 +20,10 @@ void shuffleDeck();
 void printDeck();
 void divideCards();
 void warRules();
+void blackjackRules();
+void hit();
+void stand();
+void checkBust();
 
 /*
 ** QUEUE IMPLEMENTATION

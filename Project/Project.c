@@ -111,14 +111,16 @@ void blackjack(){
   struct Queue* dealerHand = createQ(52);
 
   while (moneys > 0){
-    scanf("%c\n", %turn);
+    scanf("%c\n", &turn);
       while (turn != 'h' || turn != 's') {
         printf("KILL YO SELF (but naht just re-enter a letter, yo)\n");
-        scanf("%c\n", %turn);
+        scanf("%c\n", &turn);
       }
     switch(turn){
-      case h:
-      case s:
+      case 'h':
+        break;
+      case 's':
+        break;
     }
   }
 
