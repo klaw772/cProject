@@ -19,6 +19,7 @@ void gameOn();
 void shuffleDeck();
 void printDeck();
 void divideCards();
+void warRules();
 
 /*
 ** QUEUE IMPLEMENTATION

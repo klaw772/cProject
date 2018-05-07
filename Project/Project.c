@@ -16,10 +16,6 @@
 //This is a great rant.
 //ty ty
 
-
-
-
-
 /*
 ** GAME IMPLEMENTATION
 */
@@ -38,7 +34,7 @@ int main() {
  //prints the face and suit of each card in the deck
 void printDeck(struct Queue* deck){
   printf("Printing the specified deck:\n");
-  for (int i = 0; i < deck->capacity; i++) {
+  for (int i = 0; i < deck->size; i++) {
        int card = deck->array[i];
        int suit = card / 13;
        int face = card % 13;
@@ -64,30 +60,75 @@ void shuffleDeck(struct Queue* deck){
 
 }
 
-/**void divideCards (struct Queue* humanPile, struct Queue* computerPile, struct Queue* deck){
+// separates the cards into a human and a computer pile
+void divideCards (struct Queue* humanPile, struct Queue* computerPile, struct Queue* deck){
+  int flip = 0; //flip denotes if humanPile (0) or computerPile(1)
   for (int i = 0; i < deck -> capacity; i++){
-
+    if (flip == 0)
+    {
+      addQ(humanPile, deck -> array[i]);
+      flip = 1;
+    }
+    else if (flip == 1)
+    {
+      addQ(computerPile, deck -> array[i]);
+      flip = 0;
+    }
   }
 
 }
-**/
+
+void stand(){
+
+}
+void hit(){
+
+}
+void checkBust(){
+
+}
+
 
 // A barebones function that sets global variable gameCheck to 1
 // and prints a successful game played message
 void blackjack(){
   gameCheck = 1;
+  char turn;
+  int moneys = 10;
+
+  blackjackRules();
   system("@cls||clear");
-  struct Queue* queue = createQ(1000);
 
-      addQ(queue, 10);
-      addQ(queue, 20);
-      addQ(queue, 30);
-      addQ(queue, 40);
+  printf("What would you like your moneys to start wiff, yo? (The default is 10): \n");
+  scanf("%d\n", &moneys);
 
-      printf("%d removed from queue\n", removeQ(queue));
+  struct Queue* deck = createQ(52);
+  printf("Shuffling the deck!\n\n");
+  sleep(2); //delays for aesthetic effect
+  shuffleDeck(deck);
 
-      printf("Front item is %d\n", frontQ(queue));
-      printf("Back item is %d\n", backQ(queue));
+  struct Queue* humanHand = createQ(52);
+  struct Queue* dealerHand = createQ(52);
+
+  while (moneys > 0){
+    scanf("%c\n", %turn);
+      while (turn != 'h' || turn != 's') {
+        printf("KILL YO SELF (but naht just re-enter a letter, yo)\n");
+        scanf("%c\n", %turn);
+      }
+    switch(turn){
+      case h:
+      case s:
+    }
+  }
+
+  //Game flow:
+  //deals 2 cards to player and to the dealer
+  //asks player if they want to hit or stand
+  //10s, j, q, k, are all 10 points
+
+
+
 
 
   printf("Believe it or not, you just played Blackjack!\n");
@@ -96,10 +137,57 @@ void blackjack(){
 }
 
 
+void blackjackRules(){
+  system("@cls||clear");
+  char placeholder;
+  scanf("%c", &placeholder);
+  char enter;
+  printf("Welcome to the game of Blackjack! Here are the rules. Press enter after you read each step to move on to the next step.\n\n");
+  printf("Step 1: \n\n"); //starting the rules
+  scanf("%c", &enter);
+  while (enter != '\n')
+  {
+    printf("Press enter to continue!\n");
+    scanf("%c", &enter);
+    scanf("%c", &enter);
+  }
+  printf("Step 2: \n\n");
+  scanf("%c", &enter);
+  while (enter != '\n')
+  {
+    printf("Press enter to continue!\n");
+    scanf("%c", &enter);
+    scanf("%c", &enter);
+  }
+  printf("Step 3: \n\n");
+  scanf("%c", &enter);
+  while (enter != '\n')
+  {
+    printf("Press enter to continue!\n");
+    scanf("%c", &enter);
+    scanf("%c", &enter);
+  }
+  printf("Step 4: \n\n");
+  scanf("%c", &enter);
+  while (enter != '\n')
+  {
+    printf("Press enter to continue!\n");
+    scanf("%c", &enter);
+    scanf("%c", &enter);
+  }
+  printf("Step 5: \n\n");
+  printf("When you are ready to play, press enter to start!");
+  scanf("%c", &enter);
+  while (enter != '\n')
+  {
+    printf("Press enter to start playing!\n");
+    scanf("%c", &enter);
+    scanf("%c", &enter);
+  }
+}
 
-// War game function
-void war(){
-  gameCheck = 2;
+
+void warRules(){
   system("@cls||clear");
   char placeholder;
   scanf("%c", &placeholder);
@@ -146,18 +234,90 @@ void war(){
     scanf("%c", &enter);
     scanf("%c", &enter);
   }
+}
+
+void draw(struct Queue* humanPile, struct Queue* computerPile, int[] cardsAtStake)
+{
+  printf("Press enter to draw your top card.");
+  scanf("%c", &enter);
+  while (enter != '\n')
+  {
+    printf("Press enter to draw your top card!\n");
+    scanf("%c", &enter);
+    scanf("%c", &enter);
+  }
+  printf("Your card is: %s of %s\n", faces_str[humanPile -> array[front] % 13], suits_str[humanPile -> array [front] / 13]);
+  printf("The computer's card is: %s of %s\n", faces_str[computerPile -> array[front] % 13], suits_str[computerPile -> array[front] / 13]);
+  int hcompare = humanPile -> array[front]; //preserves data from the front of the human pile
+  int ccompare = computerPile -> array[front]; //preserves data from the front of the computer pile
+  removeQ(humanPile);
+  removeQ(computerPile);
+  cardsAtStake[0] = hcompare;
+  cardsAtStake[1] = ccompare;
+}
+
+void drawWar(struct Queue* humanPile, struct Queue* computerPile, int[] cardsAtStake)
+{
+  printf("WAR!!!");
+  printf("Draw your next top 3 cards face down, and then drop the fourth card face up.");
+  for (int i = 0; i < 2; i++)
+  {
+    for (int j = 0; j < 2; j++)
+    {
+
+    }
+    removeQ(humanPile);
+    removeQ(computerPile);
+  }
+  printf("Your fourth card is: %s of %s\n", faces_str[humanPile -> array[front] % 13], suits_str[humanPile -> array [front] / 13]);
+  printf("The computer's fourth card is: %s of %s\n", faces_str[computerPile -> array[front] % 13], suits_str[computerPile -> array[front] / 13]);
+}
+
+int compare(int[] cardsAtStake)
+{
+  int index;
+  for (int i = 0; i < 51; i++)
+  {
+    if (cardsAtStake[i] == null)
+    {
+      break;
+    }
+    else
+    {
+      continue;
+    }
+    index = i;
+  }
+  if (cardsAtStake)
+}
+// War game function
+void war(){
+  gameCheck = 2;
+  warRules();
   struct Queue* deck = createQ(52);
   printf("Shuffling the deck!\n\n");
-  sleep(3); //delays for aesthetic effect
+  sleep(2); //delays for aesthetic effect
   shuffleDeck(deck);
   printf("Dealing the cards to each player!\n\n");
+  sleep(2);
   struct Queue* humanPile = createQ(52); //queues with max capacities of 52
   struct Queue* computerPile = createQ(52);
-  //divideCards(humanPile, computerPile, deck);
-  printf("Your pile\n"); //these are here mostly to check that divide cards method works
+  divideCards(humanPile, computerPile, deck);
+  //printf("Your pile\n"); //these are here mostly to check that divide cards method works
   //printDeck(humanPile);
-  printf("Computer pile\n");
+  //printf("Computer pile\n");
   //printDeck(computerPile);
+  printf("Let's start the game!");
+  sleep(1);
+  char enter;
+  while (humanPile->size != 52 || computer -> size != 52){
+    int cardsAtStake[52];
+    draw(humanPile, computerPile, cardsAtStake);
+    while (cardsAtStake[0] == cardsAtStake[0])
+    {
+      drawWar(humanPile, computerPile, cardsAtStake);
+    }
+  }
   printf("Believe it or not, you just played War!\n");
   quit();
 }
@@ -229,7 +389,6 @@ void quit(){
       }// since gameCheck != 1, it re-calls the war function
       break;
   }
-
 
 
 /*
