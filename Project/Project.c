@@ -83,7 +83,7 @@ void hit(){
   printf("You chose to hit. The previous value of your hand was %d.\n", playerValue);
   bjDraw(humanHand, bjdeck);
   printf("You were dealt a %s of %s\n", warface[humanHand -> array[humanHand -> front] % 13], warsuit[humanHand -> array [humanHand ->front] / 13]);
-  playerValue += *(warface[humanHand -> array[humanHand -> front] % 13]);
+  playerValue += (warface[humanHand -> array[humanHand -> front] % 13]);
   printf("Your new hand value is: %d\n", playerValue);
   //bet();
   checkBust();
