@@ -24,9 +24,9 @@ int main() {
 void printDeck(struct Queue* deck){
   for (int i = 0; i < deck->size; i++) { //iterates through the entire deck to print cards
        int card = deck->array[i];
-       int suit = card / 13; //calculates suit value 
+       int suit = card / 13; //calculates suit value
        int face = card % 13; //calculates face value, each card will have a unique suit and face combo
-       printf("%s of %s\n", warface[face], warsuit[suit]); //prints card value and suit in string form 
+       printf("%s of %s\n", warface[face], warsuit[suit]); //prints card value and suit in string form
      }
 }
 
@@ -65,18 +65,19 @@ void divideCards (struct Queue* humanPile, struct Queue* computerPile, struct Qu
 
 }
 
-
+//draws a card for the blackjack function
 void bjDraw(struct Queue* hHand, struct Queue* aDeck)
 {
   int temp = removeQ(aDeck); //preserves data from the front of the deck
-  addQ(hHand, temp);
+  addQ(hHand, temp); // adds the data from the front of the deck into the player's hand
 }
-
+// method for standing, or essentially skipping your turn
 void stand(){
   printf("You chose to stand.\n");
-  printf("Your hand value is still %d. Dealer's turn!\n", playerValue);
-  sleep(1);
+  printf("Your hand value is still %d. Dealer's turn!\n", playerValue); //prints the player's hand value
+  sleep(1); // slight delay for aesthetic effect
 }
+// function that is called when the player wants to hit. Draws a card and adds the value of such card to the value of the hand
 void hit(){
   printf("You chose to hit. The previous value of your hand was %d.\n", playerValue);
   bjDraw(humanHand, bjdeck);
@@ -84,8 +85,11 @@ void hit(){
   playerValue += (warface[humanHand -> array[humanHand -> front] % 13]);
   printf("Your new hand value is: %d\n", playerValue);
   //bet();
-  checkBust();
+  checkBust(); //checks if the player has busted or won every time a card is called
 }
+
+// compares the value of the player's hand with 21 (the number required for a blackjack)
+  // if it's 21, the player wins. If it's >21, it's a bust! The player loses.
 int checkBust(){
   if (playerValue < 21)
     return -1;
@@ -95,6 +99,7 @@ int checkBust(){
     return 1;
 }
 
+//main blackjack function, containing the main loop of the game amongst other things
 void blackjack(){
   gameCheck = 1;
   char turn;
@@ -128,23 +133,13 @@ void blackjack(){
   else
     printf("You busted! Game over!\n");
 
-
-  //Game flow:
-  //deals 2 cards to player and to the dealer
-  //asks player if they want to hit or stand
-  //10s, j, q, k, are all 10 points
-
-
-
-
-
   printf("Believe it or not, you just played Blackjack!\n");
 
   quit();
 }
 
-
-void blackjackRules(){ //prints the rules of blackjack, pressing enter between each step
+//prints the rules of blackjack, pressing enter between each step
+void blackjackRules(){
   system("@cls||clear");
   char placeholder;
   scanf("%c", &placeholder);
@@ -185,8 +180,8 @@ void blackjackRules(){ //prints the rules of blackjack, pressing enter between e
   }
 }
 
-
-void warRules(){ //prints the rules of war, pressing enter between each step
+//prints the rules of war, pressing enter between each step
+void warRules(){
   system("@cls||clear");
   char placeholder;
   scanf("%c", &placeholder);
@@ -235,8 +230,8 @@ void warRules(){ //prints the rules of war, pressing enter between each step
   }
 }
 
-void draw(struct Queue* humanPile, struct Queue* computerPile, struct Queue* cardsAtStake) //draws the top card of each player's piles of cards face up and puts the values into a separate queue for whoever wins
-{
+//draws the top card of each player's piles of cards face up and puts the values into a separate queue for whoever wins
+void draw(struct Queue* humanPile, struct Queue* computerPile, struct Queue* cardsAtStake) {
   char enter;
   printf("Press enter to draw your top card.\n\n");
   scanf("%c", &enter);
@@ -255,7 +250,8 @@ void draw(struct Queue* humanPile, struct Queue* computerPile, struct Queue* car
   addQ(cardsAtStake, ctemp);
 }
 
-void drawWar(struct Queue* humanPile, struct Queue* computerPile, struct Queue* cardsAtStake) //draws two cards (the first face down and the second face up) and puts all the values into separate queue
+//draws two cards (the first face down and the second face up) and puts all the values into separate queue
+void drawWar(struct Queue* humanPile, struct Queue* computerPile, struct Queue* cardsAtStake)
 {
   char enter;
   printf("WAR!!!\n");
@@ -267,7 +263,7 @@ void drawWar(struct Queue* humanPile, struct Queue* computerPile, struct Queue* 
     scanf("%c", &enter);
     scanf("%c", &enter);
   }
-  addQ(cardsAtStake, removeQ(humanPile)); 
+  addQ(cardsAtStake, removeQ(humanPile));
   addQ(cardsAtStake, removeQ(computerPile));
   printf("Your second card is: %s of %s\n", warface[humanPile -> array[humanPile -> front] % 13], warsuit[humanPile -> array [humanPile -> front] / 13]);
   printf("The computer's second card is: %s of %s\n", warface[computerPile -> array[computerPile -> front] % 13], warsuit[computerPile -> array[computerPile -> front] / 13]);
@@ -275,7 +271,8 @@ void drawWar(struct Queue* humanPile, struct Queue* computerPile, struct Queue* 
   addQ(cardsAtStake, removeQ(computerPile));
 }
 
-int compare(struct Queue* cardsAtStake) //compares the last two cards added to the cardsAtStake queue (the most recent cards placed into the queue) and checks whose value is greater: human or computer
+//compares the last two cards added to the cardsAtStake queue (the most recent cards placed into the queue) and checks whose value is greater: human or computer
+int compare(struct Queue* cardsAtStake)
 {
   int humanCompare = cardsAtStake -> array [cardsAtStake -> size - 2]; //human pile's last card in the cardsAtStake to compare
   int hcompareface = humanCompare % 13; //
@@ -295,7 +292,8 @@ int compare(struct Queue* cardsAtStake) //compares the last two cards added to t
   }
 }
 
-int addToPile(struct Queue* cardsAtStake, struct Queue* winnerPile) //adds the values in cardsAtStake to the winners' pile as found with compare
+//adds the values in cardsAtStake to the winners' pile as found with compare
+int addToPile(struct Queue* cardsAtStake, struct Queue* winnerPile)
 {
   for (int i = 0; i < cardsAtStake -> size; i++)
   {
@@ -326,7 +324,7 @@ void war(){
     draw(humanPile, computerPile, cardsAtStake); //initial draw of the top cards in each player's pile
     while (compare(cardsAtStake)==0) //tie is found and until the war is resolved where one value is greater than the other, the drawWar function takes place
     {
-      drawWar(humanPile, computerPile, cardsAtStake); 
+      drawWar(humanPile, computerPile, cardsAtStake);
 
     }
     if (compare(cardsAtStake) == -1) //computer wins the round
@@ -360,7 +358,7 @@ void gameOn(){
   scanf("%d", &game);
   while ((game != 1 && game != 2) && (sizeof(game) != sizeof(int)))
   {
-     printf("Not a valid option. Please select your choice of game by pressing 1 for Blackjack or 2 for War: "); 
+     printf("Not a valid option. Please select your choice of game by pressing 1 for Blackjack or 2 for War: ");
      scanf("%d", &game);
   }
   switch(game)
